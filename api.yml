@@ -1,0 +1,199 @@
+swagger: "2.0"
+
+info:
+  description: REST API with Flask, SQLAlchemy and Connexion
+  version: "1.0.0"
+  title: REST API
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+basePath: /api
+
+paths:
+  /user:
+    get:
+      operationId: user.read_all
+      tags:
+        - User
+      summary: one of the required RESTful API calls
+      description: gets a list of all Users
+      responses:
+        200:
+          description: success
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: integer
+                  description: user ID
+                username:
+                  type: string
+                  description: unique username
+                first_name:
+                  type: string
+                  description: first name
+                surname:
+                  type: string
+                  description: family name
+                emails:
+                  type: array
+                  items:
+                    properties:
+                      id:
+                        type: integer
+                      address:
+                        type: string
+                        description: email address
+                      created_on:
+                        type: string
+                        description: timestamp when email address was created
+    post:
+      operationId: user.create
+      tags:
+        - User
+      summary: one of the required RESTful API calls
+      description: creates new User
+      parameters:
+        - name: user
+          in: body
+          description: user to create
+          required: True
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: unique username
+              first_name:
+                type: string
+                description: first name
+              surname:
+                type: string
+                description: family name
+      responses:
+        201:
+          description: success
+          schema:
+            properties:
+              id:
+                type: integer
+                description: user id
+              username:
+                type: string
+                description: username
+              first_name:
+                type: string
+                description: first name
+              surname:
+                type: string
+                description: family name
+
+  /user/{user_id}:
+    get:
+      operationId: user.read_by_id
+      tags:
+        - User
+      summary: one of the required RESTful API calls
+      description: gets a user by ID
+      parameters:
+        - name: user_id
+          in: path
+          description: id of required user
+          type: integer
+          required: True
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: user ID
+              username:
+                type: string
+                description: username
+              first_name:
+                type: string
+                description: first name
+              last_name:
+                type: string
+                description: family name
+              emails:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      description: email ID
+                    address:
+                      type: string
+                      description: email address
+                    created_on:
+                      type: string
+                      description: timestamp when email was created
+
+    put:
+      operationId: user.update
+      tags:
+        - User
+      summary: one of the required RESTful API calls
+      description: updates a user
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of a user that needs to be updated
+          type: integer
+          required: True
+        - name: user
+          in: body
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: username
+              first_name:
+                type: string
+                description: first name
+              surname:
+                type: string
+                description: family name
+      responses:
+        200:
+          description: success
+          schema:
+            properties:
+              id:
+                type: integer
+                description: user ID
+              username:
+                type: string
+                description: username
+              first_name:
+                type: string
+                description: first name
+              surname:
+                type: string
+                description: family name
+
+    delete:
+      operationId: user.delete
+      tags:
+        - User
+      summary: one of the required RESTful API calls
+      description: deletes a contaact with given ID
+      parameters:
+        - name: user_id
+          in: path
+          type: integer
+          description: ID of a user to delete
+          required: True
+      responses:
+        200:
+          description: success
