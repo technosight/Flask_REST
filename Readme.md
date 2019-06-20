@@ -1,12 +1,15 @@
-# Test assignment
+# RESTful API with Flask, Connextion and Marshmallow
 
 ## Overview
 
-This test implements RESTful API with Pythonb 3, Flask, Connexion and Marshmallow. Swagger page provides a list of implemented API calls with an ability to test them.
+This is a sample implementation of RESTful API with Python 3, Flask, Connexion and Marshmallow. Swagger page provides a list of implemented API calls with an ability to test them.
 
-Current version contains API methods for Contacts only. Emails and Celery task are to be implemented. 
+Data model consists of two entities: a User and a ContactDetail. User has one-to-many relationship with ContactDetails.
 
-## How to run the test
+SQLite is used as a backend database, it is represented by a single file and does not require any specific configuration.
+
+
+## How to run the app
 
 * Recreate the database if required:
 

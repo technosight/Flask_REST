@@ -1,16 +1,12 @@
 swagger: "2.0"
-
 info:
   description: REST API with Flask, SQLAlchemy and Connexion
   version: "1.0.0"
   title: REST API
-
 consumes:
   - application/json
-
 produces:
   - application/json
-
 basePath: /api
 
 paths:
@@ -28,9 +24,9 @@ paths:
             type: array
             items:
               properties:
-                id:
+                user_id:
                   type: integer
-                  description: user ID
+                  description: user id
                 username:
                   type: string
                   description: unique username
@@ -40,13 +36,13 @@ paths:
                 surname:
                   type: string
                   description: family name
-                emails:
+                contact_details:
                   type: array
                   items:
                     properties:
-                      id:
+                      contact_detail_id:
                         type: integer
-                      address:
+                      email:
                         type: string
                         description: email address
                       created_on:
@@ -80,7 +76,7 @@ paths:
           description: success
           schema:
             properties:
-              id:
+              user_id:
                 type: integer
                 description: user id
               username:
@@ -95,11 +91,11 @@ paths:
 
   /user/{user_id}:
     get:
-      operationId: user.read_by_id
+      operationId: user.get_by_id
       tags:
         - User
       summary: one of the required RESTful API calls
-      description: gets a user by ID
+      description: gets a user by id
       parameters:
         - name: user_id
           in: path
@@ -112,9 +108,9 @@ paths:
           schema:
             type: object
             properties:
-              id:
+              user_id:
                 type: integer
-                description: user ID
+                description: user id
               username:
                 type: string
                 description: username
@@ -124,20 +120,19 @@ paths:
               last_name:
                 type: string
                 description: family name
-              emails:
+              contact_details:
                 type: array
                 items:
                   properties:
-                    id:
+                    contact_detail_id:
                       type: integer
-                      description: email ID
-                    address:
+                      description: email id
+                    email:
                       type: string
                       description: email address
                     created_on:
                       type: string
                       description: timestamp when email was created
-
     put:
       operationId: user.update
       tags:
@@ -147,7 +142,7 @@ paths:
       parameters:
         - name: user_id
           in: path
-          description: ID of a user that needs to be updated
+          description: id of a user that needs to be updated
           type: integer
           required: True
         - name: user
@@ -169,9 +164,9 @@ paths:
           description: success
           schema:
             properties:
-              id:
+              user_id:
                 type: integer
-                description: user ID
+                description: user id
               username:
                 type: string
                 description: username
@@ -187,12 +182,155 @@ paths:
       tags:
         - User
       summary: one of the required RESTful API calls
-      description: deletes a contaact with given ID
+      description: deletes a contaact with given id
       parameters:
         - name: user_id
           in: path
           type: integer
-          description: ID of a user to delete
+          description: id of a user to delete
+          required: True
+      responses:
+        200:
+          description: success
+
+
+  /user/{user_id}/contact_detail:
+    post:
+      operationId: contact_detail.create
+      tags:
+        - ContactDetail
+      summary: one of the required RESTful API calls
+      description: creates new Email for given User
+      parameters:
+        - name: user_id
+          in: path
+          description: user id
+          type: integer
+          required: True
+        - name: contact_detail
+          in: body
+          description: ContactDetail object
+          required: True
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                description: email address
+      responses:
+        201:
+          description: success
+          schema:
+            properties:
+#              user_id:
+#                type: interger
+#                description: user id
+              contact_detail_id:
+                type: integer
+                description: contact detail id
+              email:
+                type: string
+                description: email address
+              created_on:
+                type: string
+                description: creation date
+
+  /user/{user_id}/contact_detail/{contact_detail_id}:
+    get:
+      operationId: contact_detail.get_by_id
+      tags:
+        - ContactDetail
+      summary: reads a contact_details associated with given user
+      description: reads a contact_details associated with given user
+      parameters:
+        - name: user_id
+          in: path
+          description: user id
+          type: integer
+          required: True
+        - name: contact_detail_id
+          in: path
+          description: contact_detail id
+          type: integer
+          required: True
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              contact_detail_id:
+                type: integer
+                description: contact_detail id
+              user_id:
+                type: integer
+                description: user id
+              email:
+                type: string
+                description: email
+              created_on:
+                type: string
+                description: timestamp of record creation
+
+    put:
+      operationId: contact_detail.update
+      tags:
+        - ContactDetail
+      summary: updates a contact_details associated with given user
+      description: updates a contact_detail associated with given user
+      parameters:
+        - name: user_id
+          in: path
+          description: user id
+          type: integer
+          required: True
+        - name: contact_detail_id
+          in: path
+          description: contact_detail id
+          type: integer
+          required: True
+        - name: contact_detail
+          in: body
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                description: email in contact_detail
+      responses:
+        200:
+          description: success
+          schema:
+            properties:
+              contact_detail_id:
+                type: integer
+                description: contact_detail id
+              user_id:
+                type: integer
+                description: user id
+              email:
+                type: string
+                description: email address
+              created_on:
+                type: string
+                description: timestamp of record creation
+
+    delete:
+      operationId: contact_detail.delete
+      tags:
+        - ContactDetail
+      summary: deletes a contact detail for given user
+      description: deletes a contact detail for given user
+      parameters:
+        - name: user_id
+          in: path
+          description: user id
+          type: integer
+          required: True
+        - name: contact_detail_id
+          in: path
+          description: contact detail id to delete
+          type: integer
           required: True
       responses:
         200:

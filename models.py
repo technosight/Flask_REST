@@ -7,28 +7,28 @@ class User(db.Model):
 
     __tablename__ = 'user'
 
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     first_name = db.Column(db.String(50), unique=False, nullable=False)
     surname = db.Column(db.String(50), unique=False, nullable=False)
 
-    emails = db.relationship(
-        'Email',
+    contact_details = db.relationship(
+        'ContactDetail',
         backref='user',
         cascade="all, delete, delete-orphan",
         single_parent=True,
-        order_by="desc(Email.address)")
+        order_by="desc(ContactDetail.email)")
         # lazy=False)
 
 
-class Email(db.Model):
+class ContactDetail(db.Model):
 
-    __tablename__ = 'email'
+    __tablename__ = 'contact_detail'
 
-    id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String(100), unique=False, nullable=False)
+    contact_detail_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    email = db.Column(db.String(100), unique=False, nullable=False)
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 class UserSchema(ma.ModelSchema):
@@ -41,41 +41,42 @@ class UserSchema(ma.ModelSchema):
         model = User
         sqla_session = db.session
 
-    emails = fields.Nested('UserEmailSchema', default=[], many=True)
+    contact_details = fields.Nested('UserContactDetailSchema', default=[], many=True)
 
 
-class UserEmailSchema(ma.ModelSchema):
+class UserContactDetailSchema(ma.ModelSchema):
 
     def __init__(self, **kwargs):
         # super().__init__(strict=True, **kwargs)
         super().__init__(**kwargs)
 
-    id = fields.Int()
+    contact_detail_id = fields.Int()
     user_id = fields.Int()
-    address = fields.Email()
+    # email = fields.Email()
+    email = fields.String()
     created_on = fields.DateTime()
 
 
-class EmailSchema(ma.ModelSchema):
+class ContactDetailSchema(ma.ModelSchema):
 
     def __init__(self, **kwargs):
         # super().__init__(strict=True, **kwargs)
         super().__init__(**kwargs)
 
     class Meta:
-        model = Email
+        model = ContactDetail
         sqla_session = db.session
 
-    contact = fields.Nested('EmailUserSchema', default=None)
+    user = fields.Nested('ContactDetailUserSchema', default=None)
 
 
-class EmailUserSchema(ma.ModelSchema):
+class ContactDetailUserSchema(ma.ModelSchema):
 
     def __init__(self, **kwargs):
         # super().__init__(strict=True, **kwargs)
         super().__init__(**kwargs)
 
-    id = fields.Int()
+    user_id = fields.Int()
     username = fields.Str()
     first_name = fields.Str()
     surname = fields.Str()
