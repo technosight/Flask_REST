@@ -7,7 +7,7 @@ connex_app.add_api('api.yml')
 
 @connex_app.route('/')
 def hello_world():
-    return 'Shanke\'s Test'
+    return 'Hello world!'
 
 def contact_read():
     return ['test_contact_read']
