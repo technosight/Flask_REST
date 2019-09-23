@@ -28,7 +28,7 @@ class ContactDetail(db.Model):
     contact_detail_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     email = db.Column(db.String(100), unique=False, nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_on = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
 
 class UserSchema(ma.ModelSchema):

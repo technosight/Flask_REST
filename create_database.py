@@ -2,8 +2,9 @@ import os
 from datetime import datetime
 from config import db
 from models import User, ContactDetail
+from datetime import datetime, timedelta
 
-
+created_on = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z')
 # sample data
 USERS = [
     {
@@ -11,9 +12,9 @@ USERS = [
         'first_name': 'Paul',
         'surname': 'Kerry',
         'contact_details': [
-            ('pkerry@mail.com', '2019-06-12 12:00:00'),
-            ('pkerry@yahoo.com', '2019-06-12 12:01:01'),
-            ('pkerry@gmail.com', '2019-06-12 12:02:02'),
+            ('pkerry@mail.com'),
+            ('pkerry@yahoo.com'),
+            ('pkerry@gmail.com'),
         ],
     },
     {
@@ -21,9 +22,9 @@ USERS = [
         'first_name': 'Tom',
         'surname': 'Dean',
         'contact_details': [
-            ('tdean@mail.com', '2019-06-12 12:00:00'),
-            ('tdean@yahoo.com', '2019-06-12 12:01:01'),
-            ('tdean@gmail.com', '2019-06-12 12:02:02'),
+            ('tdean@mail.com'),
+            ('tdean@yahoo.com'),
+            ('tdean@gmail.com'),
         ],
     },
     {
@@ -31,9 +32,9 @@ USERS = [
         'first_name': 'Anna',
         'surname': 'Davies',
         'contact_details': [
-            ('adavies@mail.com', '2019-06-12 12:00:00'),
-            ('adavies@yahoo.com', '2019-06-12 12:01:01'),
-            ('adavies@gmail.com', '2019-06-12 12:02:02'),
+            ('adavies@mail.com'),
+            ('adavies@yahoo.com'),
+            ('adavies@gmail.com'),
         ],
     },
 ]
@@ -58,11 +59,9 @@ for user in USERS:
     # add emails
     contact_details = user.get('contact_details')
     for contact_detail in contact_details:
-        email, created_on = contact_detail
         db_user.contact_details.append(
             ContactDetail(
-                email=email,
-                created_on=datetime.strptime(created_on, '%Y-%m-%d %H:%M:%S'),
+                email=contact_detail,
             )
         )
     db.session.add(db_user)
