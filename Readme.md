@@ -19,17 +19,17 @@ Marshmallow is an ORM library that converts complex datatypes, such as objects, 
 
 * Recreate the database if required:
 ```
-cd {work_folder}/IQVIA
+cd {work_folder}/Flask_REST
 python create_database.py
 ```
 * Run unit tests:
 ```
-cd {work_folder}/IQVIA
+cd {work_folder}/Flask_REST
 python -m unittest utests.test_api
 ```
 * Start up Flask server:
 ```
-cd {work_folder}/IQVIA
+cd {work_folder}/Flask_REST
 python app.py
 ```
 * Open your web browser and navigate to:
@@ -44,12 +44,12 @@ docker run -d -p 6379:6379 redis
 ```
 * Start scheduler for Celery tasks:
 ```
-cd {work_folder}/IQVIA
+cd {work_folder}/Flask_REST
 celery -A celery_tasks beat --loglevel=info
 ``` 
 * Open new terminal and start Celery worker:
 ```
-cd {work_folder}/IQVIA
+cd {work_folder}/Flask_REST
 celery -A celery_tasks worker --loglevel=info
 ```
 * Open `users.db` file with SQLite browser and observe tables `user` and `contact_detail` being updated every 15 seconds.
