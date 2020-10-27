@@ -10,7 +10,7 @@ chardet==3.0.4
 Click==7.0
 clickclick==1.2.2
 connexion==2018.0.dev1
-cryptography==2.7
+cryptography==3.2
 Flask==1.0.3
 flask-marshmallow==0.10.1
 Flask-SQLAlchemy==2.4.0
