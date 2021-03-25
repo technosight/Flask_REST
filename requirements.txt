@@ -35,7 +35,7 @@ pyrsistent==0.15.2
 PySocks==1.7.0
 pytest==5.0.1
 pytz==2019.2
-PyYAML==5.1.1
+PyYAML==5.4
 redis==3.3.8
 requests==2.22.0
 schedule==0.6.0
